@@ -16,16 +16,80 @@ define('beacons.helper', function(require){
             return point;
         });
 
-        // return distancePoints(set)[0];
+        return distancePoints(set)[0];
 
         set = set.slice(0, 3);
-        return set.concat([getCoordinate.apply(null, set)]);
+        // return set.concat([getCoordinate.apply(null, set)]);
         // return getTrilateration.apply(null, set);
         return getCoordinate.apply(null, set);
     }
 
+    function distancePoints (beacons, steps) {
+        if(beacons.length > 3) beacons = beacons.slice(0, 3);
+
+        function Midpoint (p1, p2) {
+            return new Point(Math.round((p1.x + p2.x) / 2), Math.round((p1.y + p2.y) / 2));
+        }
+
+        function distance (p1, p2) {
+            return Math.round(Math.sqrt( (Math.pow(p1.x - p2.x, 2)) + (Math.pow(p1.y - p2.y, 2)) ));
+        }
+
+        function Point (x, y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        var points = [], vertices = new Array(beacons.length);
+        var _steps = steps || 20,
+            _div = (_steps * 0.5);
+
+        beacons.forEach(function (beacon, n) {
+            vertices[n] = [];
+            for (var i = 0; i <= _steps; i++) {
+
+                var p = new Point(
+                    Math.round(beacon.x + beacon.d * Math.cos(( i / _div ) * Math.PI)),
+                    Math.round(beacon.y + beacon.d * Math.sin(( i / _div ) * Math.PI))
+                );
+
+                vertices[n].push(p);
+            }
+        });
+
+        // find first two minimal points
+        var dist_i = [];
+        vertices[0].forEach(function (p1) {
+            vertices[1].forEach(function (p2) {
+                var dist = distance(p1, p2);
+                dist_i.push({midpoint: new Midpoint(p1, p2), dist: dist});
+            });
+        });
+
+        dist_i = dist_i.sort(function (a, b) { return a.dist - b.dist; });
+
+        var twoPoints = dist_i.slice(0 , 2);
+
+        // check two points against the circle
+        var dist_t = [];
+        vertices[2].forEach(function (p1) {
+            twoPoints.forEach(function (p2) {
+                var dist = distance(p1, p2.midpoint);
+                dist_t.push({midpoint: new Midpoint(p1, p2.midpoint), dist: dist});
+            });
+        });
+
+        var p = dist_t
+            .sort(function (a,b) { return a.dist - b.dist })
+            .map(function (p) { return p.midpoint });
+        return p;
+    }
+
     function debugGetCoordinate(p1, p2, p3){
-        return [p1, p2, p3, getTrilateration(p1, p2, p3)];
+        var out = [p1, p2, p3, distancePoints([p1, p2, p3])[0]];
+        console.log('OUT', distancePoints([p1, p2, p3]))
+        return out;
+        return [p1, p2, p3, getCoordinate(p1, p2, p3)];
     }
 
     function getCoordinate(p1, p2, p3) {
@@ -41,8 +105,8 @@ define('beacons.helper', function(require){
         y = (y + v) / 2;
 
         return {
-            x: Math.round(x),
-            y: Math.round(y),
+            x: Math.floor(x),
+            y: Math.floor(y),
             c:'#ff3366'
         };
     }
