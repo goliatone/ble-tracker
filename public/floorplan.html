@@ -6,14 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Floor plan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/floorplan/d3.floorplan.css">
+    <link rel="stylesheet" href="/js/vendors/floorplan/d3.floorplan.css">
 </head>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/javascripts/beacons.js"></script>
-<script src="/d3/d3.min.js"></script>
-<script src="/floorplan/d3.floorplan.min.js"></script>
-<script src="/javascripts/d3.floorplan.scatterplot.js"></script>
-<script>
+<!-- <script>
     function main() {
         var st = document.getElementById('connection');
         window.st = st;
@@ -187,50 +182,14 @@
             .map(function (p) { return p.midpoint });
         return p;
     }
-</script>
-<body onload="main();">
+</script> -->
+<!-- <body onload="main();"> -->
+<body>
     <p>Floor Plan</p>
     <div id="connection">
         NOT CONNECTED
     </div>
     <div id="map" />
+    <script src="/js/vendors/requirejs/require.js" data-main="/js/boot.js"></script>
 </body>
-<script type="text/javascript">
-    var xscale = d3.scale.linear()
-               .domain([0, 2196])//input
-               .range([0, 2196 * 0.5]), //output
-        yscale = d3.scale.linear()
-               .domain([0, 1326 ]) //input
-               .range([0, 1326 * 0.5]), //output
-
-        map = d3.floorplan().xScale(xscale).yScale(yscale),
-        imagelayer = d3.floorplan.imagelayer(),
-        plotlayer = d3.floorplan.scatterplot(),
-        mapdata = {};
-
-    window.pl = plotlayer;
-    window.md = mapdata;
-
-    mapdata[imagelayer.id()] = [{
-        url: '/images/fc_22_ca.png',
-        x: 0,
-        y: 0,
-        width: 2196,
-        height: 1326,
-         }];
-
-    mapdata[plotlayer.id()] = [{
-        x: 1900, y: 307, c:'red'
-    }];
-
-    map.addLayer(imagelayer)
-       .addLayer(plotlayer);
-
-    d3.select("#map").append("svg")
-    .attr("width", 2196 * 0.5)
-        .attr("height", 1326 * 0.5)
-        .datum(mapdata)
-        .call(map);
-    console.log('MAP', "width", 2196 * 0.5, "height", 1326 * 0.5)
-</script>
 </html>
