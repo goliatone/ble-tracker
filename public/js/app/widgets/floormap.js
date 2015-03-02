@@ -8,20 +8,28 @@ define('floormap', function(require){
 
     var xscale = d3.scale.linear()
                .domain([0, IMG_WIDTH])//input
-               .range([0, IMG_WIDTH * 0.5]), //output
-        yscale = d3.scale.linear()
-               .domain([0, IMG_HEIGTH ]) //input
-               .range([0, IMG_HEIGTH * 0.5]), //output
+               .range([0, IMG_WIDTH * 0.5]); //output
 
-        map = d3.floorplan().xScale(xscale).yScale(yscale),
-        imagelayer = d3.floorplan.imagelayer(),
-        plotlayer = d3.floorplan.scatterplot(),
-        mapdata = {};
+    var yscale = d3.scale.linear()
+               .domain([0, IMG_HEIGTH ]) //input
+               .range([0, IMG_HEIGTH * 0.5]); //output
+
+    var map = d3.floorplan().xScale(xscale).yScale(yscale);
+
+    var imagelayer = d3.floorplan.imagelayer();
+
+    var plotlayer = d3.floorplan.scatterplot({
+            keySelector:function(d){
+                return d.id;
+            }
+        });
+
+    var mapdata = {};
 
     window.pl = plotlayer;
 
     mapdata[imagelayer.id()] = [{
-        url: '/images/fc_22_ca.png',
+        url: '/images/fc_22_ca_2.png',
         x: 0,
         y: 0,
         width: IMG_WIDTH,
@@ -29,16 +37,18 @@ define('floormap', function(require){
      }];
 
     mapdata[plotlayer.id()] = [{
-        x: 1900, y: 307, c:'red'
+        x: 1900, y: 307, c:'red', id:'pepe'
     }];
+
+
 
     map.addLayer(imagelayer)
        .addLayer(plotlayer);
 
-    d3.select("#map").append("svg")
-    .attr("width", IMG_WIDTH * 0.5)
+    d3.select("#map")
+        .append("svg")
+        .attr("width", IMG_WIDTH * 0.5)
         .attr("height", IMG_HEIGTH * 0.5)
         .datum(mapdata)
         .call(map);
-    console.log('MAP', "width", IMG_WIDTH * 0.5, "height", IMG_HEIGTH * 0.5);
 });
