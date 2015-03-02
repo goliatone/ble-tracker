@@ -20,6 +20,7 @@ define('main', function(require) {
 
     socket.client.on('ble.inrange', function(payload) {
         var pos = BeaconsHelper.getPosition(payload.beacons, geometry);
+        pos.id = payload.uuid;
         if(isNaN(pos.x) || isNaN(pos.y) || Math.abs(pos.x) === Infinity || Math.abs(pos.y) === Infinity ) return console.warn('OUT', pos);
         pl.refresh([pos], function(d){ return d.id; });
     });

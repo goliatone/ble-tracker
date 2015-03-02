@@ -10,11 +10,11 @@
     //filter by major
 
     var data = {
-    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
-    "major": 444,
-    "minor": 3,
-    "color": "green"
-};
+        "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+        "major": 444,
+        "minor": 3,
+        "color": "green"
+    };
 
     function Beacon(){
         var conf = {
