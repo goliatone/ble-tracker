@@ -1,77 +1,82 @@
 define('scatterplot', function(require){
-    var d3 = require('d3');
+    var d3 = require('d3'),
+        extend = require('extend');
+
+    //We need to require floorplan plugin
     require('floorplan');
 
-    d3.floorplan.scatterplot = function() {
-        var x = d3.scale.linear(),
-        y = d3.scale.linear(),
-        name = "scatterplot",
-        _svg = null,
-        id = "fp-scatter-plot-" + new Date().valueOf(),
-        pointFilter = function(d) { return d.points; };
+    var DEFAULTS = {
+        keySelector: undefined,
+        name:'scatterplot'
+    };
 
-        function scatterplot(g) {
+    var scatterplot = function(options) {
+        options = extend({}, DEFAULTS, options);
+
+        var x = d3.scale.linear(),
+            y = d3.scale.linear(),
+            _svg = null,
+            id = 'fp-scatter-plot-' + new Date().valueOf();
+
+        function ScatterPlot(g) {
             g.each(function(data) {
                 if (!data) return;
-                console.log('DATA', data);
-
                 _svg = d3.select(this);
-                return scatterplot.refresh(data);
+                return ScatterPlot.refresh(data);
             });
         }
 
-        scatterplot.refresh = function(data, keySelector){
+        ScatterPlot.refresh = function(data, keySelector){
+            keySelector = keySelector || options.keySelector;
+
             //We should filter data, check if we already have the
             //points, if so, update values, else
             //add them to plot
-            var dots = _svg.selectAll("scatter-dots")
+            var dots = _svg.selectAll('circle')
                     .data(data, keySelector);
 
             dots.exit().remove();
 
-            dots.enter().append("svg:circle")
-                .attr("cx", function (d, i) {
-                    console.log('CIRCLE', d.x, d.y)
+            dots.enter()
+                .append('circle')
+
+            dots.attr('cx', function (d, i) {
                      return x(d.x);
                  })
-                .attr("cy", function (d) {
+                .attr('cy', function (d) {
                     return y(d.y);
                 })
                 .attr('fill', function(d){
                     return d.c ? d.c : 'red';
                 })
-                .attr("r", 10);
+                .attr('r', 10);
         };
 
-        scatterplot.xScale = function(scale) {
+        ScatterPlot.xScale = function(scale) {
             if (! arguments.length) return x;
             x = scale;
-            return scatterplot;
+            return ScatterPlot;
         };
 
-        scatterplot.yScale = function(scale) {
+        ScatterPlot.yScale = function(scale) {
             if (! arguments.length) return y;
             y = scale;
-            return scatterplot;
+            return ScatterPlot;
         };
 
-        scatterplot.id = function() {
+        ScatterPlot.id = function() {
             return id;
         };
 
-        scatterplot.title = function(n) {
-            if (! arguments.length) return name;
-            name = n;
-            return scatterplot;
+        ScatterPlot.title = function(n) {
+            if (! arguments.length) return options.name;
+            options.name = n;
+            return ScatterPlot;
         };
 
-        scatterplot.pointFilter = function(fn) {
-            if (! arguments.length) return pointFilter;
-            pointFilter = fn;
-            return scatterplot;
-        };
-
-        return scatterplot;
+        return ScatterPlot;
     };
+
+    d3.floorplan.scatterplot = scatterplot;
 
 });
