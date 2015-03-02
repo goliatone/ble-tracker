@@ -6,9 +6,12 @@ define('beacons.helper', function(require){
             return a.distance - b.distance;
         });
 
+        beacons = beacons.sort(function(a, b){
+            return a.rssi < b.rssi;
+        });
+
         var set = beacons.map(function(beacon){
             var point = {};
-            point.id = 'UPDATE_THIS_REALLY!!',
             point.r = beacon.rssi;
             point.d = Math.round(beacon.distance * 100);
             point.x = geometry[beacon.major + '::' + beacon.minor].x;
@@ -68,6 +71,7 @@ define('beacons.helper', function(require){
 
         dist_i = dist_i.sort(function (a, b) { return a.dist - b.dist; });
 
+        if(dist_i.length < 2) return [];
         var twoPoints = dist_i.slice(0 , 2);
 
         // check two points against the circle
