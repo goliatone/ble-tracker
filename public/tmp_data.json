@@ -1,0 +1,75 @@
+[{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 333,
+    "minor": 1,
+    "color": "light-blue",
+    "position": {"x":2074, "y":685, "label": "middle-right"}
+},
+{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 333,
+    "minor": 2,
+    "color": "dark-blue",
+    "position": {"x":1664, "y":51, "label": "top-left"}
+},
+{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 333,
+    "minor": 3,
+    "color": "green",
+    "position": {"x":1675, "y":685, "label": "middle-left"}
+},
+{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 444,
+    "minor": 1,
+    "color": "dark-blue",
+    "position": {"x":1675, "y":1307, "label": "bottom-left"}
+},
+{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 444,
+    "minor": 2,
+    "color": "light-blue",
+    "position": {"x":2148, "y":1307, "label": "bottom-right"}
+},
+{
+    "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+    "major": 444,
+    "minor": 3,
+    "color": "green",
+    "position": {"x":2125, "y":51, "label": "top-right"}
+}]
+
+
+{
+    "333::2": {"x":1664, "y":51, "label": "top-left"},
+    "444::3": {"x":2125, "y":51, "label": "top-right"},
+    "333::3": {"x":1675, "y":685, "label": "middle-left"},
+    "333::1": {"x":2074, "y":685, "label": "middle-right"},
+    "444::1": {"x":1675, "y":1307, "label": "bottom-left"},
+    "444::2": {"x":2148, "y":1307, "label": "bottom-right"}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[{"x":1664, "y":51, "label": "top-left"},
+{"x":2125, "y":51, "label": "top-right"},
+
+{"x":1675, "y":685, "label": "top-left"},
+{"x":2074, "y":685, "label": "middle-right"},
+
+{"x":1675, "y":1307, "label": "bottom-left"},
+{"x":2148, "y":1307, "label": "bottom-right"}]

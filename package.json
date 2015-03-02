@@ -1,0 +1,35 @@
+{
+  "name": "ble-tracker",
+  "version": "0.0.0",
+  "description": "Beacon tracker server, POC",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goliatone/ble-tracker"
+  },
+  "keywords": [
+    "BLE",
+    "estimote",
+    "tracker"
+  ],
+  "author": "goliatone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goliatone/ble-tracker/issues"
+  },
+  "homepage": "https://github.com/goliatone/ble-tracker",
+  "dependencies": {
+    "body-parser": "~1.10.2",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.1.1",
+    "ejs": "^2.3.1",
+    "express": "^4.11.1",
+    "jade": "~1.9.1",
+    "morgan": "~1.5.1",
+    "serve-favicon": "~2.2.0",
+    "socket.io": "^1.3.2"
+  }
+}
