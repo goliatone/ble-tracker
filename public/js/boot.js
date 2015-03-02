@@ -4,9 +4,11 @@ requirejs.config({
     baseUrl: '/js',
     paths: {
         'main': 'app/main',
+        'config': 'app/config',
         floormap:'app/widgets/floormap',
 
         socket:'app/services/socket',
+        'beacons.helper': 'app/utils/beacons.helper',
 
         d3:'vendors/d3/d3',
         socketio: '/socket.io/socket.io',
