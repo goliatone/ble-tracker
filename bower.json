@@ -13,7 +13,7 @@
     "jquery": "~2.0.3",
     "d3": "~2.0.3",
     "requirejs": "~2.1.4",
-    "requirejs-text": "2.0.6",
+    "requirejs-text": "~2.0.14",
     "requirejs-domready": "2.0.1",
     "ractive": "latest",
     "gconfig": "latest",
@@ -22,6 +22,7 @@
     "go2o": "latest",
     "glogger": "latest",
     "moment-timezone": "~0.3.0",
-    "metrics-graphics": "~2.2.0"
+    "metrics-graphics": "~2.2.0",
+    "require-css": "~0.1.8"
   }
 }
