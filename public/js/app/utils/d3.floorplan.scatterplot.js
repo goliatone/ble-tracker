@@ -49,7 +49,9 @@ define('scatterplot', function(require){
                 .attr('fill', function(d){
                     return d.c ? d.c : 'red';
                 })
-                .attr('r', 10);
+                .attr('r', function(d){
+                    return x( d.r ? dr : 10);
+                });
         };
 
         ScatterPlot.xScale = function(scale) {
