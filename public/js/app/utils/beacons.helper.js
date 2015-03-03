@@ -62,7 +62,7 @@ define('beacons.helper', function(require){
 
         // find first two minimal points
         var dist_i = [];
-        vertices[0].forEach(function (p1) {
+        vertices[0] && vertices[0].forEach(function (p1) {
             vertices[1].forEach(function (p2) {
                 var dist = distance(p1, p2);
                 dist_i.push({midpoint: new Midpoint(p1, p2), dist: dist});
@@ -76,7 +76,7 @@ define('beacons.helper', function(require){
 
         // check two points against the circle
         var dist_t = [];
-        vertices[2].forEach(function (p1) {
+        vertices[2] && vertices[2].forEach(function (p1) {
             twoPoints.forEach(function (p2) {
                 var dist = distance(p1, p2.midpoint);
                 dist_t.push({midpoint: new Midpoint(p1, p2.midpoint), dist: dist});
@@ -84,7 +84,7 @@ define('beacons.helper', function(require){
         });
 
         var p = dist_t
-            .sort(function (a,b) { return a.dist - b.dist })
+            .sort(function (a, b) { return a.dist - b.dist })
             .map(function (p) { return p.midpoint });
         return p;
     }
@@ -120,7 +120,6 @@ define('beacons.helper', function(require){
         var T = (Math.pow(pa.x, 2.) - Math.pow(pb.x, 2.) + Math.pow(pa.y, 2.) - Math.pow(pb.y, 2.) + Math.pow(pb.r, 2.) - Math.pow(pa.r, 2.)) / 2.0;
         var y = ((T * (pb.x - pc.x)) - (S * (pb.x - pa.x))) / (((pa.y - pb.y) * (pb.x - pb.x)) - ((pc.y - pb.y) * (pb.x - pa.x)));
         var x = ((y * (pa.y - pb.y)) - T) / (pb.x - pa.x);
-        console.log('TRILATERATION', {x:x, y:y})
         return {
             x: x,
             y: y,
