@@ -10,8 +10,16 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/js/vendors/floorplan/d3.floorplan.css">
 </head>
-<body>
-    <div id="map" />
+    <script id="content-template" type="text/ractive">
+      <h2>Updates</h2>
+      <hr/>
+      <p>{{message}}</p>
+      <user-side />
+    </script>
+
+    <body>
+        <div id="map" />
+        <div id="content"></div>
+    </body>
     <script src="/js/vendors/requirejs/require.js" data-main="/js/boot.js"></script>
-</body>
 </html>
