@@ -4,19 +4,22 @@ define('floormap', function(require){
     require('scatterplot');
 
     var IMG_WIDTH = 2196,
-        IMG_HEIGTH = 1326;
+        IMG_HEIGTH = 1326,
+        SCALE = .35;
 
     var xscale = d3.scale.linear()
                .domain([0, IMG_WIDTH])//input
-               .range([0, IMG_WIDTH * 0.5]); //output
+               .range([0, IMG_WIDTH * SCALE]); //output
 
     var yscale = d3.scale.linear()
                .domain([0, IMG_HEIGTH ]) //input
-               .range([0, IMG_HEIGTH * 0.5]); //output
+               .range([0, IMG_HEIGTH * SCALE]); //output
 
     var map = d3.floorplan().xScale(xscale).yScale(yscale);
 
     var imagelayer = d3.floorplan.imagelayer();
+
+    var heatmap = d3.floorplan.heatmap();
 
     var plotlayer = d3.floorplan.scatterplot({
             keySelector:function(d){
@@ -26,6 +29,7 @@ define('floormap', function(require){
 
     var mapdata = {};
 
+    window.hm = heatmap;
     window.pl = plotlayer;
 
     mapdata[imagelayer.id()] = [{
@@ -36,19 +40,22 @@ define('floormap', function(require){
         height: IMG_HEIGTH,
      }];
 
-    mapdata[plotlayer.id()] = [{
-        x: 1900, y: 307, c:'red', id:'pepe'
-    }];
+    mapdata[plotlayer.id()] = [
+        // {x: 1900, y: 307, c:'red', id:'pepe'}
+    ];
+
+    // mapdata[heatmap.id()] =
 
 
 
     map.addLayer(imagelayer)
-       .addLayer(plotlayer);
+        .addLayer(heatmap)
+        .addLayer(plotlayer);
 
     d3.select("#map")
         .append("svg")
-        .attr("width", IMG_WIDTH * 0.5)
-        .attr("height", IMG_HEIGTH * 0.5)
+        .attr("width", IMG_WIDTH * SCALE)
+        .attr("height", IMG_HEIGTH * SCALE)
         .datum(mapdata)
         .call(map);
 });
