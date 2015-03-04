@@ -81,6 +81,8 @@ var io = require('socket.io')(http);
 io.on('connection', function(socket) {
     console.log('=> a user connected', socket.id);
 
+    socket.join('global');
+
     /////////////////
     // Handle Devices
     /////////////////
@@ -111,15 +113,29 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('ble.inrange', payload);
     });
 
+
     socket.on('disconnect', function(){
-        console.log('DISCONNECT', socket.id);
-        delete devices[socket.id];
+        console.log('=> DISCONNECT', devices[socket.id].deviceId);
+        // io._notify(id);
+        socket.emit('device.disconnected', {
+            deviceId: devices[socket.id].deviceId
+        });
+        // io.to('global').emit('device.disconnected', devices[socket.id]);
+        // var id = socket.id;
+        // setTimeout(function(){delete devices[id];}, 0);
     });
 
     devices[socket.id] = {
         socket: socket
     };
 });
+
+
+io._notify = function(id){
+    console.log('NOTIFY DISCONNECT', devices[id]);
+    io.to('global').emit('device.disconnected', {});
+    setTimeout(function(){delete devices[id];}, 0);
+};
 
 
 //Expose the application
