@@ -68,3 +68,4 @@ node_modules
 ##Cruft
 public/js/vendors
 models/data/*
+public/images/avatars/*
