@@ -7,6 +7,7 @@
     <title>Floor plan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="/css/simplegrid.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/js/vendors/floorplan/d3.floorplan.css">
 </head>
@@ -18,12 +19,15 @@
     </script>
 
     <body>
-        <div id="content">
-
-        <div class="map-container">
-            <div class="map-wrapper">
-                <div id="map" />
+        <div id="wrapper" class="container">
+         <div class="row">
+            <div id="content" class="col-4"></div>
+            <div class="map-container col-8">
+                <div class="map-wrapper">
+                    <div id="map" />
+                </div>
             </div>
+
         </div>
 
         </div>
