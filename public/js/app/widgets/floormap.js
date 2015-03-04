@@ -54,8 +54,13 @@ define('floormap', function(require){
 
     d3.select("#map")
         .append("svg")
+        // .attr("width", "100%")
+        // .attr("height", "100%")
         .attr("width", IMG_WIDTH * SCALE)
         .attr("height", IMG_HEIGTH * SCALE)
+
+        // .attr("viewBox", [0,0,IMG_WIDTH * SCALE, IMG_HEIGTH * SCALE].join(','))
+        // .attr("preserveAspectRatio", "xMidYMid meet")
         .datum(mapdata)
         .call(map);
 });
