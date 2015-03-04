@@ -63,7 +63,7 @@ define('beacons.helper', function(require){
         // find first two minimal points
         var dist_i = [];
         vertices[0] && vertices[0].forEach(function (p1) {
-            vertices[1].forEach(function (p2) {
+            vertices[1] && vertices[1].forEach(function (p2) {
                 var dist = distance(p1, p2);
                 dist_i.push({midpoint: new Midpoint(p1, p2), dist: dist});
             });
