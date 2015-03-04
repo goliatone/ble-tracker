@@ -7,29 +7,25 @@
     <title>Floor plan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/css/simplegrid.css">
+    <link rel="stylesheet" href="/js/vendors/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/js/vendors/foundation/css/foundation.css">
+
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/js/vendors/floorplan/d3.floorplan.css">
 </head>
     <script id="content-template" type="text/ractive">
-      <h2>Updates</h2>
-      <hr/>
-      <p>{{message}}</p>
-      <user-side />
+        <user-side />
     </script>
 
     <body>
-        <div id="wrapper" class="container">
-         <div class="row">
-            <div id="content" class="col-4"></div>
-            <div class="map-container col-8">
-                <div class="map-wrapper">
-                    <div id="map" />
+        <div class="wrapper">
+            <div class="row">
+                <div id="content" class="large-2 small-12 columns"></div>
+                <div id="content" class="large-1 small-12 columns"></div>
+                <div class="large-9 mall-12 columns">
+                    <div id="map"></div>
                 </div>
             </div>
-
-        </div>
-
         </div>
     </body>
     <script src="/js/vendors/requirejs/require.js" data-main="/js/boot.js"></script>
