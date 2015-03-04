@@ -1,15 +1,15 @@
 define('userside', function(require){
 
-    require('css!app/widgets/userside/userside.css');
+    require('css!userside.css');
 
     var Ractive = require('ractive');
-    var template = require('text!app/widgets/userside/userside.html');
+    var template = require('text!userside.html');
 
     var Userside = Ractive.extend({
         template: template,
         append:true,
         data:{
-            members:[{name:'Pepe'}, {name:'Rone'}, {name:'Goliat'}]
+            members:[]
         }
 
     });
