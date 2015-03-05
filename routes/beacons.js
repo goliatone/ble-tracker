@@ -8,6 +8,9 @@ var Engine = require('tingodb')(),
 var db = new Engine.Db(path.resolve('./data'), {});
 var BeaconPings = db.collection("beacon_pings");
 
+router.get('/charts', function(req, res) {
+    res.sendFile(process.env.PWD + '/public/beacon.html');
+});
 
 //PULL FROM ROUTES
 // app.get('/uuid/:beacon/:major/:minor/', function(req, res){
