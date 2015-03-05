@@ -14,20 +14,20 @@ var http = require('http');
 var app = express();
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(process.env.PWD + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(process.env.PWD + '/public'));
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(process.env.PWD, 'views'));
 app.set('view engine', ejs);
 app.engine('html', ejs.renderFile);
 
 app.get('/floorplan', function(req, res) {
-    res.sendFile(__dirname+'/public/floorplan.html');
+    res.sendFile(process.env.PWD + '/public/floorplan.html');
 });
 
 //////
@@ -49,7 +49,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('error.html', {
             message: err.message,
             error: err
         });
@@ -60,7 +60,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('error.html', {
         message: err.message,
         error: {}
     });
