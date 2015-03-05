@@ -10,6 +10,7 @@ requirejs.config({
 
         floormap:'app/widgets/floormap',
         userside: 'app/widgets/userside/userside',
+        sparkle: 'app/widgets/sparkle/sparkle',
 
         socket:'app/services/socket',
         'beacons.helper': 'app/utils/beacons.helper',
@@ -50,6 +51,7 @@ define('boot', function(require) {
 
     require('jquery');
     // require('main');
+    require('sparkle');
     require('floormap');
     require('userside');
 
