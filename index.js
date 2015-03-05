@@ -32,7 +32,7 @@ app.get('/floorplan', function(req, res) {
 
 //////
 var beacons = require('./routes/beacons')(app);
-var beacons = require('./routes/users')(app);
+var beacons = require('./routes/demo')(app);
 //////
 
 // catch 404 and forward to error handler
