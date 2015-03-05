@@ -69,3 +69,4 @@ node_modules
 public/js/vendors
 models/data/*
 public/images/avatars/*
+data/*
