@@ -12,9 +12,10 @@ define('sparkle', function(require){
         init: function(o){
             this.observe('values', function(n, o){
                 if(n === undefined && o === undefined) return;
-                console.log('UPDATE VALUES', n);
-                // var u = this.get('updates').concat(n);
-                this.merge('updates', n);
+                var u = this.get('updates');
+                u = u.concat([n]);
+                console.log('UPDATE VALUES', u);
+                this.set('updates', u);
                 this.redraw();
             });
 
@@ -33,8 +34,9 @@ define('sparkle', function(require){
                 .attr("preserveAspectRatio", "xMidYMid meet");
 
             // var dataTwo = this.get('updates');
-            var dataTwo = [33, 76, 67, 74, 32, 82, 62, 1, 78, 4, 13, 88, 61, 26, 58, 42, 79, 69, 3, 19, 10, 91, 94, 20, 27, 8, 51, 87, 85, 65, 17, 77, 35, 37, 93, 36, 60, 63, 39, 73, 43, 75, 9, 66, 25, 49, 97, 90, 47, 70, 18, 41, 50, 34, 53, 23, 30, 92, 14, 84, 16, 95, 28, 31, 96, 68, 80, 21, 72, 99, 15, 83, 6, 64, 59, 54, 86, 12, 55, 71, 7, 22, 52, 24, 5, 29, 56, 2, 100, 98, 48, 11, 40, 57, 45, 81, 89, 38, 46, 44];
-            this.set('updates', dataTwo);
+            // var dataTwo = [33, 76, 67, 74, 32, 82, 62, 1, 78, 4, 13, 88, 61, 26, 58, 42, 79, 69, 3, 19, 10, 91, 94, 20, 27, 8, 51, 87, 85, 65, 17, 77, 35, 37, 93, 36, 60, 63, 39, 73, 43, 75, 9, 66, 25, 49, 97, 90, 47, 70, 18, 41, 50, 34, 53, 23, 30, 92, 14, 84, 16, 95, 28, 31, 96, 68, 80, 21, 72, 99, 15, 83, 6, 64, 59, 54, 86, 12, 55, 71, 7, 22, 52, 24, 5, 29, 56, 2, 100, 98, 48, 11, 40, 57, 45, 81, 89, 38, 46, 44];
+            var dataTwo = [46.41588833612779, 43.532818929750086, 59.18305331167628, 44.89718106969617];
+            // this.set('updates', dataTwo);
             var x = d3.scale.linear().domain([0, 48]).range([-5, width]);
             var y = d3.scale.linear().domain([0, 100]).range([0, height]);
 
@@ -72,14 +74,15 @@ define('sparkle', function(require){
             // }, updateDelay);
         },
         redraw: function(){
-            var data = this.get('udpates');
+            // var data = this.get('udpates');
             var dataTwo = this.get('updates');
             // var dataTwo = [33, 76, 67, 74, 32, 82, 62, 1, 78, 4, 13, 88, 61, 26, 58, 42, 79, 69, 3, 19, 10, 91, 94, 20, 27, 8, 51, 87, 85, 65, 17, 77, 35, 37, 93, 36, 60, 63, 39, 73, 43, 75, 9, 66, 25, 49, 97, 90, 47, 70, 18, 41, 50, 34, 53, 23, 30, 92, 14, 84, 16, 95, 28, 31, 96, 68, 80, 21, 72, 99, 15, 83, 6, 64, 59, 54, 86, 12, 55, 71, 7, 22, 52, 24, 5, 29, 56, 2, 100, 98, 48, 11, 40, 57, 45, 81, 89, 38, 46, 44];
             var v = dataTwo.shift();
-            dataTwo.push(v);
+            // dataTwo.push(v);
+            console.log('REDRAW', dataTwo);
             this.graph.selectAll("path")
-                    .data([data])
-                    // .data([dataTwo])
+                    // .data([data])
+                    .data([dataTwo])
                     .attr("transform", "translate(" + this.x(1) + ")")
                     .attr("d", this.line)
                     .transition()
