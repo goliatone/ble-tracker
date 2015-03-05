@@ -26,7 +26,27 @@ define('scatterplot', function(require){
             });
         }
 
+        ScatterPlot.debug = function(data, o){
+            var dots = _svg.selectAll('pepe-circle')
+                .data(data).enter()
+                .append('circle')
+                .attr('cx', function (d, i) {
+                     return x(d.x);
+                 })
+                .attr('cy', function (d) {
+                    return y(d.y);
+                })
+                .attr('fill', function(d){
+                    return "hsl(" + Math.random() * 360 + ",100%,50%)";
+                    return d.c ? d.c : 'red';
+                })
+                .attr('r', function(d){
+                    return x( d.r ? dr : 10);
+                });
+        };
+
         ScatterPlot.refresh = function(data, keySelector){
+
             keySelector = keySelector || options.keySelector;
 
             //We should filter data, check if we already have the
