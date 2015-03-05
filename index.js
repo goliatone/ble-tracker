@@ -30,39 +30,9 @@ app.get('/floorplan', function(req, res) {
     res.sendFile(__dirname+'/public/floorplan.html');
 });
 
-
-//////
-var fs = require('fs');
-app.post('/upload', function(req, res) {
-    fs.readFile(req.files.image.path, function (err, data) {
-
-        var imageName = req.files.image.name;
-
-        /// If there's an error
-        if(!imageName){
-            console.log("There was an error")
-            res.redirect("/");
-            res.end();
-        } else {
-
-          var newPath = process.env.PWD + "/public/images/avatars/" + imageName;
-
-          /// write file to uploads/fullsize folder
-          fs.writeFile(newPath, data, function (err) {
-            /// let's see it
-            res.redirect("/uploads/avatar/" + imageName);
-          });
-        }
-    });
-});
-app.get('/uploads/avatar/:file', function (req, res){
-    file = req.params.file;
-    var img = fs.readFileSync(__dirname + "/public/images/avatars/" + file);
-    res.writeHead(200, {'Content-Type': 'image/png' });
-    res.end(img, 'binary');
-});
 //////
 var beacons = require('./routes/beacons')(app);
+var beacons = require('./routes/users')(app);
 //////
 
 // catch 404 and forward to error handler
