@@ -4,9 +4,26 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Beacon</title>
-    <link rel="stylesheet" href="">
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-</body>
+    <link rel="stylesheet" href="/js/vendors/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/js/vendors/foundation/css/foundation.css">
+
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+    <script id="content-template" type="text/ractive">
+        <sparkle />
+    </script>
+
+    <body>
+        <div class="wrapper">
+            <div class="row">
+                <div id="content" class="large-4 small-12 columns"></div>
+                <div class="large-8 mall-12 columns">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/js/vendors/requirejs/require.js" data-main="/js/boot.js"></script>
 </html>
