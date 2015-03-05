@@ -106,4 +106,45 @@ define('boot', function(require) {
 
     window.v = view;
 
+//TODO: Average all items.
+    var readings = {index:0};
+    socket.client.on('ble.inrange', function(payload){
+        var beacons = payload.beacons;
+
+        var makeId = function(beacon){
+            return [beacon.major, beacon.minor].join('::');
+        };
+
+        var getStore = function(beacon){
+            var id = makeId(beacon);
+            return readings[id] || (readings[id] = []);
+        };
+
+        Array.isArray(beacons) && beacons.forEach(function(beacon){
+            getStore(beacon).push(beacon);
+            setTimeout(average.bind(null, readings), 0);
+        });
+    });
+
+    var start = Date.now();
+    function average(src){
+        src.index++;
+        var oldt = start;
+        start = Date.now();
+        Object.keys(src).forEach(function(id){
+            if(!Array.isArray(src[id])) return
+            console.log('ID: %s ================= %s', id, start - oldt);
+            var sum = src[id].reduce(function(a, b){
+                console.log(b.distance)
+                return a + b.distance;
+            }, 0);
+            console.log('avg', sum/src.index);
+        });
+
+    }
+
+    window.readings = readings;
+
 });
+
+
