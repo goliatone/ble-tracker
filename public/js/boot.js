@@ -97,7 +97,8 @@ define('boot', function(require) {
             var d = updates[id] || (updates[id] = []);
             d.push(b.distance * 100);
         });
-        console.log('udpates', updates)
+
+        console.log('=>udpates', updates)
         view.set('sparkle.updates', updates);
     });
 
@@ -121,8 +122,9 @@ define('boot', function(require) {
     window.v = view;
 
     view.observe('sparkle.updates', function(newValue, oldValue, path){
+        console.log('SPARKLE.UPDATES', newValue)
         if(newValue === undefined && oldValue === undefined) return;
-        view.findComponent('sparkle').merge('values', newValue['333::1']);
+        newValue['333::1'] && view.findComponent('sparkle').set('values', newValue['333::1'][0]);
     });
 return
 //TODO: Average all items.
