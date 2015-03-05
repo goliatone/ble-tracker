@@ -70,7 +70,7 @@ define('boot', function(require) {
     var socket;
 
     socket = new Client({});
-
+/*
     socket.client.on('ble.inrange', function renderPosition(payload) {
         var pos = BeaconsHelper.getPosition(payload.beacons, geometry);
         pos ? pos.id = payload.uuid : (pos = {});
@@ -87,6 +87,18 @@ define('boot', function(require) {
         view.findComponent('user-side').merge('members', [member], {
             compare: 'id'
         });
+    });
+*/
+    socket.client.on('ble.inrange', function(payload){
+
+        var updates = {};
+        payload.beacons.forEach(function(b){
+            var id = b.major + '::' + b.minor;
+            var d = updates[id] || (updates[id] = []);
+            d.push(b.distance * 100);
+        });
+        console.log('udpates', updates)
+        view.set('sparkle.updates', updates);
     });
 
     socket.client.on('device.connected', function(data) {
@@ -108,6 +120,11 @@ define('boot', function(require) {
 
     window.v = view;
 
+    view.observe('sparkle.updates', function(newValue, oldValue, path){
+        if(newValue === undefined && oldValue === undefined) return;
+        view.findComponent('sparkle').merge('values', newValue['333::1']);
+    });
+return
 //TODO: Average all items.
     var readings = {index:0};
     socket.client.on('ble.inrange', function(payload){
