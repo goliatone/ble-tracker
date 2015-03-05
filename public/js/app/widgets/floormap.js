@@ -21,10 +21,17 @@ define('floormap', function(require){
 
     var heatmap = d3.floorplan.heatmap();
 
-    var plotlayer = d3.floorplan.scatterplot({
+    var o = {
+        plotlayer:{
             keySelector:function(d){
                 return d.id;
             }
+        }
+    };
+
+    o.plotlayer.keySelector = undefined;
+    var plotlayer = d3.floorplan.scatterplot({
+            keySelector:o.plotlayer.keySelector
         });
 
     var mapdata = {};
