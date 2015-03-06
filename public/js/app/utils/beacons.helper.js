@@ -1,6 +1,6 @@
 define('beacons.helper', function(require){
 
-    function getPosition(beacons, geometry){
+    function getPosition(beacons, geometry, debug){
         if(!beacons) return console.warn('getPosition: No beacons');
         beacons = beacons.sort(function(a, b){
             return a.distance - b.distance;
@@ -18,6 +18,11 @@ define('beacons.helper', function(require){
             point.y = geometry[beacon.major + '::' + beacon.minor].y;
             return point;
         });
+
+        if(debug){
+            set = set.slice(0, 3);
+            return set.concat(distancePoints(set)[0]);
+        }
 
         return distancePoints(set)[0];
 
