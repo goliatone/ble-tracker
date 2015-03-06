@@ -12,6 +12,14 @@
 
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/js/vendors/floorplan/d3.floorplan.css">
+    <style>
+        #test1, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
     <script id="content-template" type="text/ractive">
         <user-side />
@@ -24,6 +32,16 @@
                 <div class="large-1 small-12 columns"></div>
                 <div class="large-9 mall-12 columns">
                     <div id="map"></div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <div class="row" style="height:600px;">
+                <div id="test1" class='with-3d-shadow with-transitions large-12'>
+                    <svg></svg>
                 </div>
             </div>
         </div>
