@@ -101,17 +101,13 @@ define('boot', function(require) {
         });
     });
 
+    BeaconsHelper.data = {};
     socket.client.on('ble.inrange', function(payload){
-
-        var updates = {};
         payload.beacons.forEach(function(b){
-            var id = b.major + '::' + b.minor;
-            var d = updates[id] || (updates[id] = []);
-            d.push(b.distance * 100);
+            var store = BeaconsHelper.getStoreForBeacon(b, BeaconsHelper.data);
+            store.push(b);
         });
-
-        console.log('##=>udpates', updates)
-        view.set('sparkle.updates', updates);
+        console.log('##=>udpates', BeaconsHelper.data);
     });
 
 
@@ -132,15 +128,6 @@ define('boot', function(require) {
         // view.set('sparkle.updates', updates);
     });*/
 
-    socket.client.on('device.connected', function(data) {
-        console.log('NEW DEVICE CONNECTED', data);
-    });
-
-    socket.client.on('device.disconnected', function(data) {
-        console.log('NEW DEVICE CONNECTED', data);
-    });
-    //
-
 
     view = new Ractive({
         template: '#content-template',
@@ -150,13 +137,6 @@ define('boot', function(require) {
     });
 
     window.v = view;
-
-    view.observe('sparkle.updates', function(newValue, oldValue, path){
-        console.log('SPARKLE.UPDATES', newValue)
-        if(newValue === undefined && oldValue === undefined) return;
-        if(!view.findComponent('sparkle')) return
-        newValue['333::1'] && view.findComponent('sparkle').set('values', newValue['333::1'][0]);
-    });
 
 /*
 //TODO: Average all items.
