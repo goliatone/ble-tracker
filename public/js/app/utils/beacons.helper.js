@@ -132,10 +132,25 @@ define('beacons.helper', function(require){
         };
     }
 
+    function getKey(beacon) {
+        return [beacon.major, beacon.minor].join('::');
+    }
+
+    function getStoreForBeacon(beacon, data){
+        var key = getKey(beacon);
+        if(!data.hasOwnProperty(key)) data[key] = [];
+        return data[key];
+    }
+
+
     window.getCoordinate = getCoordinate;
     window.debugGetCoordinate = debugGetCoordinate;
 
     return {
+
+        getKey:getKey,
+        getStoreForBeacon:getStoreForBeacon,
+
         getPosition: getPosition,
         getCoordinate: getCoordinate,
         debugGetCoordinate: debugGetCoordinate,
