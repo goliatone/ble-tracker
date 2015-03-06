@@ -31,6 +31,9 @@ app.get('/floorplan', function(req, res) {
 });
 
 //////
+app.get('/beacon-chart', function(req, res) {
+    res.sendFile(process.env.PWD + '/public/charts.html');
+});
 var beacons = require('./routes/beacons')(app);
 var beacons = require('./routes/demo')(app);
 //////
