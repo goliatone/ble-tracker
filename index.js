@@ -84,7 +84,7 @@ var io = require('socket.io')(http);
 io.on('connection', function(socket) {
     console.log('=> a user connected', socket.id);
 
-    socket.join('global');
+    // socket.join('global');
 
     /////////////////
     // Handle Devices
