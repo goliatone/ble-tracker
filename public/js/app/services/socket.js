@@ -9,7 +9,8 @@ define('socket', function(require){
             url: window.location.protocol + '//' + window.location.host
         },
         ackPayload: {
-            uuid: uuid.getUUID()
+            uuid: uuid.getUUID(),
+            type: 'browser'
         },
         WSClient: function(config){
             return io(config.url);
