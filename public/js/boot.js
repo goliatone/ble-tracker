@@ -19,6 +19,8 @@ requirejs.config({
         socketio: '/socket.io/socket.io',
         floorplan:'vendors/floorplan/d3.floorplan.min',
         scatterplot:'app/utils/d3.floorplan.scatterplot',
+        nvd3: 'vendors/nvd3/build/nv.d3',
+        'nvd3.scatterplot': 'app/utils/nvd3.scatterplot',
 
         gpub: 'vendors/gpub/src/gpub',
 
@@ -38,7 +40,13 @@ requirejs.config({
         'ractive': 'vendors/ractive/ractive',
         'jquery': 'vendors/jquery/dist/jquery',
     },
-
+    shim:{
+        d3: { exports: 'd3' },
+        nvd3: {
+          exports: 'nv',
+          deps: ['d3']
+        }
+    },
     map: {
         '*': {
             'css': 'vendors/require-css/css'
@@ -50,10 +58,13 @@ define('boot', function(require) {
     console.warn('Loading');
 
     require('jquery');
+    require('d3')
     // require('main');
     require('sparkle');
     require('floormap');
     require('userside');
+
+    var scatterPlot = require('nvd3.scatterplot');
 
     //
     var GPub = require('gpub');
@@ -70,12 +81,13 @@ define('boot', function(require) {
     var socket;
 
     socket = new Client({});
-/*
+
     socket.client.on('ble.inrange', function renderPosition(payload) {
         var pos = BeaconsHelper.getPosition(payload.beacons, geometry);
         pos ? pos.id = payload.uuid : (pos = {});
         if(isNaN(pos.x) || isNaN(pos.y) || Math.abs(pos.x) === Infinity || Math.abs(pos.y) === Infinity ) return console.warn('OUT', pos);
-        pl.refresh([pos], function(d){ return d.id; });
+        // pl.refresh([pos], function(d){ return d.id; });
+        pl.debug([pos], function(d){ return d.id; });
     });
 
     socket.client.on('ble.inrange', function addUser(payload){
@@ -88,7 +100,7 @@ define('boot', function(require) {
             compare: 'id'
         });
     });
-*/
+
     socket.client.on('ble.inrange', function(payload){
 
         var updates = {};
@@ -98,9 +110,27 @@ define('boot', function(require) {
             d.push(b.distance * 100);
         });
 
-        console.log('=>udpates', updates)
+        console.log('##=>udpates', updates)
         view.set('sparkle.updates', updates);
     });
+
+
+    /*
+     * Update scatter plot graph
+     */
+    /*socket.client.on('ble.inrange', function(payload){
+
+        payload.beacons.forEach(function(b){
+            var id = b.major + '::' + b.minor;
+            var d = getBeaconHolder(id);
+            console.log(d)
+            d.push(b.distance * 100);
+        });
+
+        console.log('=>udpates', data)
+        // udpateGraph(updates)
+        // view.set('sparkle.updates', updates);
+    });*/
 
     socket.client.on('device.connected', function(data) {
         console.log('NEW DEVICE CONNECTED', data);
@@ -124,9 +154,11 @@ define('boot', function(require) {
     view.observe('sparkle.updates', function(newValue, oldValue, path){
         console.log('SPARKLE.UPDATES', newValue)
         if(newValue === undefined && oldValue === undefined) return;
+        if(!view.findComponent('sparkle')) return
         newValue['333::1'] && view.findComponent('sparkle').set('values', newValue['333::1'][0]);
     });
-return
+
+/*
 //TODO: Average all items.
     var readings = {index:0};
     socket.client.on('ble.inrange', function(payload){
@@ -165,7 +197,7 @@ return
     }
 
     window.readings = readings;
-
+*/
 });
 
 
