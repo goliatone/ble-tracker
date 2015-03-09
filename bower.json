@@ -24,6 +24,7 @@
     "moment-timezone": "~0.3.0",
     "metrics-graphics": "~2.2.0",
     "require-css": "~0.1.8",
-    "foundation": "~5.5.1"
+    "foundation": "~5.5.1",
+    "c3js-chart": "~0.4.9"
   }
 }
