@@ -1,12 +1,7 @@
 var express = require('express'),
     router = express();
 
-var Engine = require('tingodb')(),
-    path = require('path'),
-    assert = require('assert');
-
-var db = new Engine.Db(path.resolve('./data'), {});
-var BeaconPings = db.collection("beacon_pings");
+var Beacon = require('../models/beacons');
 
 router.get('/beacon', function(req, res) {
     res.sendFile(process.env.PWD + '/public/beacon.html');
@@ -58,7 +53,7 @@ router.get('/beacon', function(req, res) {
 //   var req = http.request(options, function(res) {
 //       res.setEncoding('utf8');
 //       res.on('data', function (chunk) {
-//           console.log("body: " + chunk);
+//           console.log('body: ' + chunk);
 //       });
 //   });
 
@@ -70,7 +65,7 @@ router.get('/beacon', function(req, res) {
 // });
 
 router.get('/list', function(req, res) {
-    BeaconPings.find({}).toArray(function(err, docs) {
+    Beacon.pings.find({}).toArray(function(err, docs) {
         res.json({
             success:true,
             results:docs
@@ -79,11 +74,23 @@ router.get('/list', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    // console.log('BEACON REGISTER', req.body);
     var payload = req.body;
     payload.created_at = Date.now();
 
-    BeaconPings.insert([payload]);
+    Beacon.confs.insert([payload]);
+
+    res.json({
+        success: true,
+        beacon: payload
+    });
+});
+
+
+router.post('/configure', function(req, res) {
+    var payload = req.body;
+    payload.created_at = Date.now();
+
+    Beacon.confs.insert([payload]);
 
     res.json({
         success: true,
