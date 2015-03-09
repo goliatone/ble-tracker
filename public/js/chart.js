@@ -68,41 +68,39 @@ define('chart', function(require) {
 
     socket = new Client({});
 
-    var data = {
-        '333::1': { values:['333::1']},
-        '333::2': { values:['333::2']},
-        '333::3': { values:['333::3']},
-        '444::1': { values:['444::1']},
-        '444::2': { values:['444::2']},
-        '444::3': { values:['444::3']}
+    var DATA = {
+        '333::1': { values:['333::1'], readings:[]},
+        '333::2': { values:['333::2'], readings:[]},
+        '333::3': { values:['333::3'], readings:[]},
+        '444::1': { values:['444::1'], readings:[]},
+        '444::2': { values:['444::2'], readings:[]},
+        '444::3': { values:['444::3'], readings:[]}
     };
 
-    var getBeaconHolder = function(id){
-        if(data[id]) return data[id].values;
+    var getBeaconHolder = function(beacon, data){
+        var id = beacon.major + '::' + beacon.minor;
+        if(data[id]) return data[id];
         var out = {};
-        out[id] = { values: [id]};
+        out[id] = { values: [id], readings: []};
         data.push(out);
-        return data[id].values;
+        return data[id];
     };
 
     socket.client.on('ble.inrange', function(payload){
 
-        payload.beacons.forEach(function(b){
-            var id = b.major + '::' + b.minor;
-            var d = getBeaconHolder(id);
-            d.push(b.rssi);
+        payload.beacons.forEach(function(beacon){
+            var stream = getBeaconHolder(beacon, DATA);
+            //TODO: Generalize. Emit event: BeaconReadings.emit('update')
+            //then we can collect and parse the beacon data as we need, handle
+            //multiple data streams.
+            // stream.values.push(Math.round(beacon.distance * 100) / 100);
+            stream.values.push(beacon.rssi);
+            stream.readings.push(beacon);
+            // console.log('BEACON', beacon)
         });
 
-        chart.load({
-            columns: getData(data)
-        });
-
-        view.set('beacons', data);
-        // view.set('beacons', getData(data));
-
-        // console.log('=>udpates', getData(data))
+        view.set('beacons', DATA);
         // udpateGraph(updates)
-        // view.set('sparkle.updates', updates);
     });
 
     function getData(data){
@@ -114,7 +112,7 @@ define('chart', function(require) {
 
     var chart = c3.generate({
         data: {
-                columns: getData(data)
+                columns: getData(DATA)
             },
         subchart: {
             show: true
@@ -138,7 +136,12 @@ define('chart', function(require) {
 
     window.v = view;
 
-    // view.observe('beacons', function())
+    view.observe('beacons', function(value){
+        if(value === undefined) return;
+        chart.load({
+            columns: getData(value)
+        });
+    })
 
 });
 
