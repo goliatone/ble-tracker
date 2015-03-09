@@ -11,6 +11,9 @@ var multer = require('multer');
 var fs = require('fs');
 var http = require('http');
 
+
+//////// CONFIG
+//APP:EXPRESS
 var app = express();
 
 // uncomment after placing your favicon in /public
@@ -30,7 +33,12 @@ app.get('/floorplan', function(req, res) {
     res.sendFile(process.env.PWD + '/public/floorplan.html');
 });
 
-//////
+//ZEROCONF
+require('./config/zeroconf')();
+///////
+
+
+////// ROUTES /////
 app.get('/beacon-chart', function(req, res) {
     res.sendFile(process.env.PWD + '/public/charts.html');
 });
@@ -79,6 +87,8 @@ var http = require('http').createServer(app).listen(port, function() {
 ////////////////////////////////////
 // Socket.IO setup
 ////////////////////////////////////
+var Beacons = require('./models/beacons');
+
 var devices = {};
 
 var io = require('socket.io')(http);
@@ -117,6 +127,8 @@ io.on('connection', function(socket) {
     socket.on('ble.range', function(payload){
         console.log('ble.range', payload)
         socket.broadcast.emit('ble.inrange', payload);
+        //TODO: Make this for realz
+        Beacons.savePing(payload);
     });
 
 
