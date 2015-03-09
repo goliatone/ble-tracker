@@ -16,7 +16,7 @@ requirejs.config({
         'beacons.helper': 'app/utils/beacons.helper',
 
         d3: 'vendors/d3/d3',
-        nvd3: 'vendors/nvd3/build/nv.d3',
+        c3: 'vendors/c3js-chart/c3',
 
         socketio: '/socket.io/socket.io',
         floorplan:'vendors/floorplan/d3.floorplan.min',
@@ -24,23 +24,21 @@ requirejs.config({
 
         gpub: 'vendors/gpub/src/gpub',
 
-        // 'gconfig': 'vendors/gconfig/gconfig',
-        // 'gconfig.path': 'vendors/gconfig/gconfig.path',
-        // 'gconfig.qstring': 'vendors/gconfig/gconfig.qstring',
-        // 'gconfig.interpolate': 'vendors/gconfig/gconfig.interpolate',
 
         extend: 'vendors/gextend/src/extend',
-        // 'keypath': 'vendors/gkeypath/keypath',
-        // 'templatecontext': 'vendors/templatecontext/templatecontext',
-
-
 
         'text': 'vendors/requirejs-text/text',
         // 'preloader': 'views/preloader',
         'ractive': 'vendors/ractive/ractive',
         'jquery': 'vendors/jquery/dist/jquery',
     },
-
+    shim:{
+        d3: { exports: 'd3' },
+        c3: {
+          exports: 'c3',
+          deps: ['d3']
+        }
+    },
     map: {
         '*': {
             'css': 'vendors/require-css/css'
@@ -52,8 +50,7 @@ define('chart', function(require) {
     console.warn('Loading');
 
     require('jquery');
-
-
+    var c3 = require('c3');
 
     //
     var GPub = require('gpub');
@@ -64,28 +61,28 @@ define('chart', function(require) {
 
     GPub.observable(Client);
 
-    // var Ractive = require('ractive');
+    var Ractive = require('ractive');
     var App = require('app');
     var view;
     var socket;
 
     socket = new Client({});
 
-    var updates = {};
-    var data = [
-        {key:'333::1', values:[]},
-        {key:'333::2', values:[]},
-        {key:'333::3', values:[]},
-        {key:'444::1', values:[]},
-        {key:'444::2', values:[]},
-        {key:'444::3', values:[]},
-    ];
+    var data = {
+        '333::1': { values:['333::1']},
+        '333::2': { values:['333::2']},
+        '333::3': { values:['333::3']},
+        '444::1': { values:['444::1']},
+        '444::2': { values:['444::2']},
+        '444::3': { values:['444::3']}
+    };
 
     var getBeaconHolder = function(id){
-        if(updates[id]) return data[updates[id]].values;
-        var index = data.push({key:id, values:[]});
-        updates[id] = index - 1;
-        return data[updates[id]].values;
+        if(data[id]) return data[id].values;
+        var out = {};
+        out[id] = { values: [id]};
+        data.push(out);
+        return data[id].values;
     };
 
     socket.client.on('ble.inrange', function(payload){
@@ -93,13 +90,41 @@ define('chart', function(require) {
         payload.beacons.forEach(function(b){
             var id = b.major + '::' + b.minor;
             var d = getBeaconHolder(id);
-            console.log(d)
-            d.push(b.distance * 100);
+            d.push(b.rssi);
         });
 
-        console.log('=>udpates', data)
+        chart.load({
+            columns: getData(data)
+        });
+
+        view.set('beacons', data);
+        // view.set('beacons', getData(data));
+
+        // console.log('=>udpates', getData(data))
         // udpateGraph(updates)
         // view.set('sparkle.updates', updates);
+    });
+
+    function getData(data){
+        return Object.keys(data).reduce(function(out, entry){
+            out.push(data[entry].values);
+            return out;
+        }, []);
+    }
+
+    var chart = c3.generate({
+        data: {
+                columns: getData(data)
+            },
+        subchart: {
+            show: true
+        },
+        zoom: {
+            enabled: true
+        },
+        color: {
+            pattern: ['#ff3366', '#0cff34', '#000fff', '#ff2299', '#0caa68', '#0c1c80']
+        }
     });
 
 
@@ -108,17 +133,12 @@ define('chart', function(require) {
         template: '#content-template',
         el: 'content',
         append: true,
-        message:'Hola Mundo Mundial!!!'
+        data: {}
     });
 
     window.v = view;
 
-    view.observe('sparkle.updates', function(newValue, oldValue, path){
-        console.log('SPARKLE.UPDATES', newValue)
-        if(newValue === undefined && oldValue === undefined) return;
-        if(!view.findComponent('sparkle')) return
-        newValue['333::1'] && view.findComponent('sparkle').set('values', newValue['333::1'][0]);
-    });
+    // view.observe('beacons', function())
 
 });
 
