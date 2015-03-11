@@ -33,10 +33,13 @@ app.get('/floorplan', function(req, res) {
     res.sendFile(process.env.PWD + '/public/floorplan.html');
 });
 
-//ZEROCONF
-require('./config/zeroconf')();
 ///////
 
+app.get('/', function(req, res){
+    console.log('INDEX REQUEST');
+    res.send({msg:true, success:'peperone'});
+    // res.send('<h2>BLEServer</h2><p>Welcome to BLEServer application</p>');
+});
 
 ////// ROUTES /////
 app.get('/beacon-chart', function(req, res) {
@@ -83,6 +86,10 @@ app.set('port', port);
 var http = require('http').createServer(app).listen(port, function() {
     console.log('http server listening on port %s', app.get('port'));
 });
+
+
+//ZEROCONF
+require('./config/zeroconf')();
 
 ////////////////////////////////////
 // Socket.IO setup
