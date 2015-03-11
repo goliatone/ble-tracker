@@ -33,14 +33,6 @@ app.get('/floorplan', function(req, res) {
     res.sendFile(process.env.PWD + '/public/floorplan.html');
 });
 
-///////
-
-app.get('/', function(req, res){
-    console.log('INDEX REQUEST');
-    res.send({msg:true, success:'peperone'});
-    // res.send('<h2>BLEServer</h2><p>Welcome to BLEServer application</p>');
-});
-
 ////// ROUTES /////
 app.get('/beacon-chart', function(req, res) {
     res.sendFile(process.env.PWD + '/public/charts.html');
