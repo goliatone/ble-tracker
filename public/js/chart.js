@@ -93,8 +93,8 @@ define('chart', function(require) {
             //TODO: Generalize. Emit event: BeaconReadings.emit('update')
             //then we can collect and parse the beacon data as we need, handle
             //multiple data streams.
-            // stream.values.push(Math.round(beacon.distance * 100) / 100);
-            stream.values.push(beacon.rssi);
+            stream.values.push(Math.round(beacon.distance * 100) / 100);
+            // stream.values.push(beacon.rssi);
             stream.readings.push(beacon);
             // console.log('BEACON', beacon)
         });
