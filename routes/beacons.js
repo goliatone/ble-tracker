@@ -17,8 +17,6 @@ router.get('/uuid/:uuid/:major/:minor', function(req, res){
         // location: settings.store_id
     };
 
-    console.log('GET', query);
-
     Beacon.beacons.find(query).toArray(function(err, docs) {
         res.json({
             success: true,
