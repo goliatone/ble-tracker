@@ -24,19 +24,9 @@ requirejs.config({
 
         gpub: 'vendors/gpub/src/gpub',
 
-        // 'gconfig': 'vendors/gconfig/gconfig',
-        // 'gconfig.path': 'vendors/gconfig/gconfig.path',
-        // 'gconfig.qstring': 'vendors/gconfig/gconfig.qstring',
-        // 'gconfig.interpolate': 'vendors/gconfig/gconfig.interpolate',
-
         extend: 'vendors/gextend/src/extend',
-        // 'keypath': 'vendors/gkeypath/keypath',
-        // 'templatecontext': 'vendors/templatecontext/templatecontext',
-
-
 
         'text': 'vendors/requirejs-text/text',
-        // 'preloader': 'views/preloader',
         'ractive': 'vendors/ractive/ractive',
         'jquery': 'vendors/jquery/dist/jquery',
     },
