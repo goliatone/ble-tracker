@@ -1,6 +1,7 @@
 var fs = require('fs');
 var express = require('express');
 var router = express.Router();
+var User = require('../models/users');
 
 router.post('/register', function(req, res) {
 
@@ -23,16 +24,18 @@ router.post('/register', function(req, res) {
           var newPath = process.env.PWD + "/public/images/avatars/" + imageName;
           var imageUrl = "/user/avatar/" + imageName;
 
+          var user = {
+                url: imageUrl,
+                email: email,
+                uuid: uuid,
+                createdAt: Date.now()
+            };
+        User.collection.insert([user]);
+
           /// write file to uploads/fullsize folder
           fs.writeFile(newPath, data, function (err) {
                 //We should check for ajax in headers:
-                res.send({status: true, result: {
-                    url: imageUrl,
-                    email: email,
-                    uuid: uuid,
-                    createdAt: Date.now()
-                }
-            });
+                res.send({status: true, result: user});
             // res.redirect(imageUrl);
           });
         }
