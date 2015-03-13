@@ -19,8 +19,7 @@ requirejs.config({
         socketio: '/socket.io/socket.io',
         floorplan:'vendors/floorplan/d3.floorplan.min',
         scatterplot:'app/utils/d3.floorplan.scatterplot',
-        nvd3: 'vendors/nvd3/build/nv.d3',
-        'nvd3.scatterplot': 'app/utils/nvd3.scatterplot',
+        'd3.heatmap.grid':'app/utils/d3.heatmap.grid',
 
         gpub: 'vendors/gpub/src/gpub',
 
@@ -54,7 +53,8 @@ define('boot', function(require) {
     require('floormap');
     require('userside');
 
-    var scatterPlot = require('nvd3.scatterplot');
+    var grid = require('d3.heatmap.grid');
+    console.info(grid)
 
     //
     var GPub = require('gpub');
@@ -76,8 +76,8 @@ define('boot', function(require) {
         var pos = BeaconsHelper.getPosition(payload.beacons, geometry);
         pos ? pos.id = payload.uuid : (pos = {});
         if(isNaN(pos.x) || isNaN(pos.y) || Math.abs(pos.x) === Infinity || Math.abs(pos.y) === Infinity ) return console.warn('OUT', pos);
-        // pl.refresh([pos], function(d){ return d.id; });
-        pl.debug([pos], function(d){ return d.id; });
+        pl.refresh([pos], function(d){ return d.id; });
+        // pl.debug([pos], function(d){ return d.id; });
     });
 
     socket.client.on('ble.inrange', function addUser(payload){
