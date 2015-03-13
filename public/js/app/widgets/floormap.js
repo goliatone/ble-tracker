@@ -51,7 +51,19 @@ define('floormap', function(require){
         // {x: 1900, y: 307, c:'red', id:'pepe'}
     ];
 
-    // mapdata[heatmap.id()] =
+    mapdata[heatmap.id()] = {
+    "binSize": 50,
+    "units": "\u00B0C",
+    "map": [
+        {"x": 1221, "y": 1112, "value": 220.2},
+        {"x": 624, "y": 162, "value": 519.9},
+        {"x": 827, "y": 412, "value": 119.7},
+        {"x": 3120, "y": 912, "value": 119.7},
+        {"x": 2231, "y": 215, "value": 250.5},
+        {"x": 2411, "y": 315, "value": 129.3},
+        {"x": 1127, "y": 1115, "value": 219.4},
+        {"x": 230, "y": 215, "value": 139.9}]
+    };
 
 
 
