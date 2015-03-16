@@ -108,68 +108,83 @@ define('d3.floorplan.heatmap', function(require){
                 .data(filterData(data), o.keySelector),
                 cellsEnter = cells.enter().append("rect").style("opacity", 1e-6);
 
-            cells.exit().transition().style("opacity", 1e-6).remove();
+            cells.exit()
+                .transition()
+                .style("opacity", 1e-6)
+                .remove();
 
             cellsEnter.append("title");
 
             cells.attr("x", function(d) { return x(d.x); })
-            .attr("y", function(d) { return y(d.y); })
-            .attr("height", Math.abs(y(_binSize) - y(0)))
-            .attr("width", Math.abs(x(_binSize) - x(0)))
-            .attr("class", function(d) { return "d6-"+colorScale(d.value); })
+                .attr("y", function(d) { return y(d.y); })
+                .attr("height", Math.abs(y(_binSize) - y(0)))
+                .attr("width", Math.abs(x(_binSize) - x(0)))
+                .attr("class", function(d) { return "d6-"+colorScale(d.value); })
                 .select("title")
                 .text(function(d) {
                     return "value: " + format(d.value) + data.units;
                 });
 
+            function areaKeySelector(d) {
+                return JSON.stringify(d.points);
+            }
+
+            function filterPoints(data){
+                return data.map.filter(function(d) { return d.points; });
+            }
+
             cellsEnter.transition().style("opacity", 0.6);
 
             var areas = vis.selectAll("path")
-                .data(data.map.filter(function(d) { return d.points; }),
-                        function(d) { return JSON.stringify(d.points); }),
-            areasEnter = areas.enter().append("path")
-            .attr("d", function(d) { return line(d.points) + "Z"; })
-            .style("opacity", 1e-6);
+                .data(filterPoints(data), areaKeySelector);
+
+            var areasEnter = areas.enter()
+                .append("path")
+                .attr("d", function(d) { return line(d.points) + "Z"; })
+                .style("opacity", 1e-6);
 
             areas.exit().transition().style("opacity", 1e-6).remove();
             areasEnter.append("title");
 
-            areas
-            .attr("class", function(d) { return "d6-"+colorScale(d.value); })
+            areas.attr("class", function(d) { return "d6-"+colorScale(d.value); })
                 .select("title")
-                    .text(function(d) {
-                        return "value: " + format(d.value) + data.units;
-                    });
+                .text(function(d) {
+                    return "value: " + format(d.value) + data.units;
+                });
+
             areasEnter.transition().style("opacity",0.6);
 
             var areaLabels = vis.selectAll("text")
-                .data(data.map.filter(function(d) { return d.points; }),
-                        function(d) { return JSON.stringify(d.points); }),
-            areaLabelsEnter = areaLabels.enter().append("text")
-                                .style("font-weight", "bold")
-                                .attr("text-anchor", "middle")
-                                .style("opacity",1e-6);
+                .data(filterPoints(data), areaKeySelector);
 
-            areaLabels.exit().transition().style("opacity",1e-6).remove();
+            var areaLabelsEnter = areaLabels.enter()
+                .append("text")
+                .style("font-weight", "bold")
+                .attr("text-anchor", "middle")
+                .style("opacity",1e-6);
+
+            areaLabels.exit()
+                .transition()
+                .style("opacity",1e-6)
+                .remove();
 
             areaLabels.attr("transform", function(d) {
-                    var center = {x:0,y:0};
-                    var area = 0;
-                    for (var i=0; i<d.points.length; ++i) {
-                        var p1 = d.points[i];
-                        var p2 = d.points[i+1] || d.points[0];
-                        var ai = (p1.x*p2.y - p2.x*p1.y);
-                        center.x += (p1.x + p2.x)*ai;
-                        center.y += (p1.y + p2.y)*ai;
-                        area += ai;
-                    }
-                    area = area / 2;
-                    center.x = center.x/(6*area);
-                    center.y = center.y/(6*area);
-                    return "translate(" + x(center.x) + ","
-                                        + y(center.y) + ")";
-                })
-            .text(function(d) { return format(d.value) + data.units; });
+                var center = {x:0,y:0};
+                var area = 0;
+                for (var i=0; i<d.points.length; ++i) {
+                    var p1 = d.points[i];
+                    var p2 = d.points[i+1] || d.points[0];
+                    var ai = (p1.x*p2.y - p2.x*p1.y);
+                    center.x += (p1.x + p2.x)*ai;
+                    center.y += (p1.y + p2.y)*ai;
+                    area += ai;
+                }
+                area = area / 2;
+                center.x = center.x/(6*area);
+                center.y = center.y/(6*area);
+                return "translate(" + x(center.x) + ","
+                                    + y(center.y) + ")";
+            }).text(function(d) { return format(d.value) + data.units; });
 
             areaLabelsEnter.transition().style("opacity",0.6);
         };
