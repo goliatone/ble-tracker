@@ -3,7 +3,7 @@ define('d3.heatmap.grid', function(require){
     //TODO: We need to access the geometry of the monitored area dynamically
     var container = {
         topleft:{
-            x: 1664,
+            x: 1674,
             y: 51
         },
         topright:{
@@ -44,7 +44,11 @@ define('d3.heatmap.grid', function(require){
         }
     }
     // window.container = container;
-    console.log(JSON.stringify(container.points, null, 4));
+    var payload = {
+        binSize:container.binSize,
+        map: container.points
+    }
+    console.log(JSON.stringify(payload, null, 4));
 
     return container;
 });
