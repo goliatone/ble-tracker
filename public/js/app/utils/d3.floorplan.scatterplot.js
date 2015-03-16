@@ -2,7 +2,8 @@ define('scatterplot', function(require){
     var d3 = require('d3'),
         extend = require('extend');
 
-    //We need to require floorplan plugin
+    //We need to require floorplan plugin to ensure we have global namespace
+    //available: d3.floorplan;
     require('floorplan');
 
     var DEFAULTS = {
