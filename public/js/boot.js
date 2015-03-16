@@ -20,6 +20,7 @@ requirejs.config({
         floorplan:'vendors/floorplan/d3.floorplan.min',
         scatterplot:'app/utils/d3.floorplan.scatterplot',
         'd3.heatmap.grid':'app/utils/d3.heatmap.grid',
+        'd3.floorplan.heatmap':'app/utils/d3.floorplan.heatmap',
 
         gpub: 'vendors/gpub/src/gpub',
 
