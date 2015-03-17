@@ -169,19 +169,19 @@ define('d3.floorplan.heatmap', function(require){
                 .remove();
 
             areaLabels.attr("transform", function(d) {
-                var center = {x:0,y:0};
+                var center = {x:0, y:0};
                 var area = 0;
                 for (var i=0; i<d.points.length; ++i) {
                     var p1 = d.points[i];
                     var p2 = d.points[i+1] || d.points[0];
-                    var ai = (p1.x*p2.y - p2.x*p1.y);
-                    center.x += (p1.x + p2.x)*ai;
-                    center.y += (p1.y + p2.y)*ai;
+                    var ai = (p1.x * p2.y - p2.x * p1.y);
+                    center.x += (p1.x + p2.x) * ai;
+                    center.y += (p1.y + p2.y) * ai;
                     area += ai;
                 }
                 area = area / 2;
-                center.x = center.x/(6*area);
-                center.y = center.y/(6*area);
+                center.x = center.x / ( 6 * area);
+                center.y = center.y / ( 6*area);
                 return "translate(" + x(center.x) + ","
                                     + y(center.y) + ")";
             }).text(function(d) { return format(d.value) + data.units; });
