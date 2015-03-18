@@ -106,6 +106,8 @@ io.on('connection', function(socket) {
 
         devices[socket.id].deviceId = payload.uuid;
 
+        //TODO: Query user by deviceid. Store it in current users.
+        //send update to clients.
         socket.broadcast.emit('device.connected', {
             deviceId: payload.uuid,
             socketId: socket.id
