@@ -25,11 +25,12 @@ router.post('/register', function(req, res) {
           var imageUrl = "/user/avatar/" + imageName;
 
           var user = {
-                url: imageUrl,
+                avatarUrl: imageUrl,
                 email: email,
                 uuid: uuid,
                 createdAt: Date.now()
             };
+
         User.collection.insert([user]);
 
           /// write file to uploads/fullsize folder
