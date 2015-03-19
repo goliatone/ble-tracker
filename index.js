@@ -89,6 +89,27 @@ require('./config/zeroconf')();
 var Beacons = require('./models/beacons');
 
 var devices = {};
+var users = [{
+     "avatarUrl": "/user/avatar/4b0e51d3cf0723703c422c3a0d97ab4a.jpg",
+    "email": "pepe",
+    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
+    "createdAt": 1426625289613
+},{
+    "avatarUrl": "/user/avatar/912c02d0382400b777a9f029f96f225f.jpg",
+    "email": "pepe@pe.com",
+    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
+    "createdAt": 1426625234200
+},{
+    "avatarUrl": "/user/avatar/468f22cf42b5c26e2c638dc4845036a3.jpg",
+    "email": "pepe@gmail.com",
+    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
+    "createdAt": 1426625143458
+},{
+    "avatarUrl": "/user/avatar/fd74afbf64bb87c9eb7b5a9ab98bddd0.jpg",
+    "email": "so@l.o",
+    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
+    "createdAt": 1426621542773
+}]
 
 var io = require('socket.io')(http);
 
@@ -108,11 +129,23 @@ io.on('connection', function(socket) {
 
         //TODO: Query user by deviceid. Store it in current users.
         //send update to clients.
-        socket.broadcast.emit('device.connected', {
+        var deviceData = {
             deviceId: payload.uuid,
             socketId: socket.id
-        });
+        };
+        socket.broadcast.emit('device.connected', deviceData);
+
+        sendCurrentUsers(socket, deviceData);
     });
+
+
+    function sendCurrentUsers(socket, payload){
+        //Mock reaching out to db to get user info from device uuid
+
+        setTimeout(function(){
+            socket.broadcast.emit('users.update', users);
+        }, 2000);
+    }
 
     /////////////////
     // Handle Beacons
