@@ -119,6 +119,10 @@ define('boot', function(require) {
         // view.set('sparkle.updates', updates);
     });*/
 
+    socket.client.on('users.update', function(users){
+        console.log('MEMEBER COUNT CHANGED', users);
+    });
+
 
     view = new Ractive({
         template: '#content-template',
