@@ -84,11 +84,15 @@ define('boot', function(require) {
     socket.client.on('ble.inrange', function addUser(payload){
         //TODO: we need to mange this better
         var member = {
-            id: payload.uuid
+            _id: 11,
+            avatarUrl: "/user/avatar/a1f603e2-953c-44bc-a0c9-f90103dbdc22.png",
+            createdAt: 1426872474062,
+            email: "pepe@ro.es",
+            uuid: "adfadf-de50-4032-bfe1-94ff07ca3f9c"
         };
 
         view.findComponent('user-side').merge('members', [member], {
-            compare: 'id'
+            compare: 'uuid'
         });
     });
 
@@ -98,7 +102,7 @@ define('boot', function(require) {
             var store = BeaconsHelper.getStoreForBeacon(b, BeaconsHelper.data);
             store.push(b);
         });
-        console.log('##=>udpates', BeaconsHelper.data);
+        // console.log('##=>udpates', BeaconsHelper.data);
     });
 
 
@@ -121,6 +125,9 @@ define('boot', function(require) {
 
     socket.client.on('users.update', function(users){
         console.log('MEMEBER COUNT CHANGED', users);
+        view.findComponent('user-side').merge('members', users, {
+            compare: 'uuid'
+        });
     });
 
 

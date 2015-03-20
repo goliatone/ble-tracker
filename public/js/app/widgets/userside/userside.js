@@ -7,7 +7,7 @@ define('userside', function(require){
 
     var Userside = Ractive.extend({
         template: template,
-        append:true,
+        append: true,
         data:{
             members:[
                 // {id:'95a178046cb015014e0ce3927bac870b'},
