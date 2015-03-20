@@ -89,27 +89,6 @@ require('./config/zeroconf')();
 var Beacons = require('./models/beacons');
 
 var devices = {};
-var users = [{
-     "avatarUrl": "/user/avatar/4b0e51d3cf0723703c422c3a0d97ab4a.jpg",
-    "email": "pepe",
-    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
-    "createdAt": 1426625289613
-},{
-    "avatarUrl": "/user/avatar/912c02d0382400b777a9f029f96f225f.jpg",
-    "email": "pepe@pe.com",
-    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
-    "createdAt": 1426625234200
-},{
-    "avatarUrl": "/user/avatar/468f22cf42b5c26e2c638dc4845036a3.jpg",
-    "email": "pepe@gmail.com",
-    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
-    "createdAt": 1426625143458
-},{
-    "avatarUrl": "/user/avatar/fd74afbf64bb87c9eb7b5a9ab98bddd0.jpg",
-    "email": "so@l.o",
-    "uuid": "be97c86e-3bee-4aff-807b-e9c1e4e38e76",
-    "createdAt": 1426621542773
-}]
 
 var io = require('socket.io')(http);
 
@@ -123,7 +102,7 @@ io.on('connection', function(socket) {
     // Handle Devices
     /////////////////
     socket.on('device.ack', function(payload){
-        console.log('DEVICE ACK', payload);
+        // console.log('DEVICE ACK', payload);
 
         devices[socket.id].deviceId = payload.uuid;
 
@@ -134,18 +113,7 @@ io.on('connection', function(socket) {
             socketId: socket.id
         };
         socket.broadcast.emit('device.connected', deviceData);
-
-        sendCurrentUsers(socket, deviceData);
     });
-
-
-    function sendCurrentUsers(socket, payload){
-        //Mock reaching out to db to get user info from device uuid
-
-        setTimeout(function(){
-            socket.broadcast.emit('users.update', users);
-        }, 2000);
-    }
 
     /////////////////
     // Handle Beacons
@@ -159,7 +127,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('ble.range', function(payload){
-        console.log('ble.range', payload)
+        // console.log('ble.range', payload);
         socket.broadcast.emit('ble.inrange', payload);
         //TODO: Make this for realz
         Beacons.savePing(payload);
@@ -168,7 +136,7 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function(){
         console.log('=> DISCONNECT', devices[socket.id].deviceId);
-        socket.emit('device.disconnected', {
+        io.sockets.emit('device.disconnected', {
             deviceId: devices[socket.id].deviceId
         });
     });
@@ -177,6 +145,8 @@ io.on('connection', function(socket) {
         socket: socket
     };
 });
+
+app.io = io;
 
 //Expose the application
 module.exports = app;
