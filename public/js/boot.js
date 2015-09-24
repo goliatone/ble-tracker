@@ -91,9 +91,9 @@ define('boot', function(require) {
             uuid: "adfadf-de50-4032-bfe1-94ff07ca3f9c"
         };
 
-        view.findComponent('user-side').merge('members', [member], {
-            compare: 'uuid'
-        });
+        // view.findComponent('user-side').merge('members', [member], {
+        //     compare: 'uuid'
+        // });
     });
 
     BeaconsHelper.data = {};
@@ -124,7 +124,8 @@ define('boot', function(require) {
     });*/
 
     socket.client.on('users.update', function(users){
-        console.log('MEMEBER COUNT CHANGED', users);
+        console.log('=> MEMEBER COUNT CHANGED', users);
+
         view.findComponent('user-side').merge('members', users, {
             compare: 'uuid'
         });
