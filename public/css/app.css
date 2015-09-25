@@ -11,6 +11,17 @@ h1, h2, h3, h4, h5, h6{
     margin-top:40px;
 }
 
+.main-header{
+    margin-bottom:40px;
+}
+
+.chart-container{
+    margin-top: 20px;
+}
+#map{
+    border: 1px solid #333333;
+}
+
 /*.map-wrapper {
     position:absolute;
     width:80%;
