@@ -2,6 +2,8 @@ var express = require('express'),
     extend = require('gextend'),
     router = express();
 
+require('../config');
+
 var SNS = require('node-sns');
 
 
