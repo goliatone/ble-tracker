@@ -41,7 +41,7 @@ define('floormap', function(require){
     window.pl = plotlayer;
 
     mapdata[imagelayer.id()] = [{
-        url: '/images/fc_22_ca_2.png',
+        url: '/images/fc_22_ca.png',
         x: 0,
         y: 0,
         width: IMG_WIDTH,
