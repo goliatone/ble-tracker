@@ -10,21 +10,22 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "jquery": "~2.0.3",
-    "d3": "~2.0.3",
-    "requirejs": "~2.1.4",
-    "requirejs-text": "~2.0.14",
-    "requirejs-domready": "2.0.1",
-    "ractive": "latest",
+    "c3": "~0.4.10",
+    "c3js-chart": "~0.4.9",
+    "d3": "~3.5.6",
+    "foundation": "~5.5.1",
     "gconfig": "latest",
+    "glogger": "latest",
+    "go2o": "latest",
     "gpub": "latest",
     "grouter": "latest",
-    "go2o": "latest",
-    "glogger": "latest",
-    "moment-timezone": "~0.3.0",
+    "jquery": "~2.0.3",
     "metrics-graphics": "~2.2.0",
+    "moment-timezone": "~0.3.0",
+    "ractive": "latest",
     "require-css": "~0.1.8",
-    "foundation": "~5.5.1",
-    "c3js-chart": "~0.4.9"
+    "requirejs": "~2.1.4",
+    "requirejs-domready": "2.0.1",
+    "requirejs-text": "~2.0.14"
   }
 }
