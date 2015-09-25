@@ -50,6 +50,7 @@ define('chart', function(require) {
     console.warn('Loading');
 
     require('jquery');
+    require('css!vendors/c3js-chart/c3.min');
     var c3 = require('c3');
 
     //
@@ -144,5 +145,3 @@ define('chart', function(require) {
     })
 
 });
-
-
