@@ -177,14 +177,14 @@ define('boot', function(require) {
 
 
 
-    // view = new Ractive({
-    //     template: '#content-template',
-    //     el: 'content',
-    //     append: true,
-    //     message:'Hola Mundo Mundial!!!'
-    // });
-    //
-    // window.v = view;
+    view = new Ractive({
+        template: '#content-template',
+        el: 'content',
+        append: true,
+        message:'Hola Mundo Mundial!!!'
+    });
+
+    window.v = view;
 
 /*
 //TODO: Average all items.
