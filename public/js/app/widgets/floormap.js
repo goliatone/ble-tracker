@@ -4,8 +4,8 @@ define('floormap', function(require){
     require('scatterplot');
     require('d3.floorplan.heatmap');
 
-    var IMG_WIDTH = 2196,
-        IMG_HEIGTH = 1326,
+    var IMG_WIDTH = 4800,
+        IMG_HEIGTH = 3184,
         SCALE = .35;
 
     var xscale = d3.scale.linear()
@@ -41,7 +41,7 @@ define('floormap', function(require){
     window.pl = plotlayer;
 
     mapdata[imagelayer.id()] = [{
-        url: '/images/fc_22_ca.png',
+        url: '/images/NY15-4th-floor.png',
         x: 0,
         y: 0,
         width: IMG_WIDTH,
