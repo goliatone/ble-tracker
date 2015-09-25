@@ -37,7 +37,7 @@
 
     <div class="row">
         <h3>Notify member</h3>
-        <form action="/messages/send" method="post">
+        <form id="messenger" action="/messages/send" method="post">
             <div class="row">
                 <div class="large-12 columns">
                     <label>Select User
@@ -56,9 +56,39 @@
                     </label>
                 </div>
             </div>
-            <button class="success expand radius">Send</button>
+            <button id="submit" class="success expand radius">Send</button>
         </form>
     </div>
 </body>
+<script src="/js/vendors/jquery/dist/jquery.js"></script>
+<script src="/js/vendors/foundation/js/foundation.min.js"></script>
+<script src="js/vendors/foundation/js/vendor/modernizr.js"></script>
+<!-- <script src="js/vendors/foundation/js/foundation/foundation.alert.js"></script> -->
+<script type="text/javascript">
+    $(document).foundation('alert', 'reflow');
+    $(document).ready(function(){
+        $('#submit').on('click', function(){
+            $.ajax({
+                url: $('#messenger').attr('action'),
+                method:'POST',
+                // contentType: "application/json; charset=utf-8",
+                // dataType: 'json',
+                data: $('#messenger').serialize()
+            }).done(function(data){
+                console.log('DONE')
+                showMessage();
+            }).fail(function(){
+                console.error('error');
+            })
+            return false;
+        });
+    });
+
+    function showMessage(){
+        var img = '<div data-alert class="alert-box info radius">Message sent.<a href="#" class="close">&times;</a></div>'
+        $('#messenger').prepend(img);
+        $(document).foundation('alert', 'reflow');
+    }
+</script>
 
 </html>
