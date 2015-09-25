@@ -18,16 +18,44 @@
     </script>
 
     <body>
+        <nav class="main-header top-bar" data-topbar>
+            <ul class="title-area">
+
+                <li class="name">
+                    <h1>
+                <a href="#">
+                  WeWorkGimbalBeacons
+                </a>
+              </h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+
+                <ul class="right">
+                    <li class="divider"></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/messages">Messages</a></li>
+                </ul>
+            </section>
+        </nav>
+
         <div class="wrapper">
             <div class="map-container row">
                 <div id="content" class="large-2 small-12 columns"></div>
-                <div class="large-1 small-12 columns"></div>
-                <div class="large-9 mall-12 columns">
-                    <div id="map"></div>
+                <!-- <div class="large-1 small-12 columns"></div> -->
+                <div class="large-9 small-12 columns">
+                    <div id="map" class="map-container"></div>
                 </div>
             </div>
-            <div class="row">
-              <div id="chart" />
+
+            <div class="row chart-container">
+                <div id="side" class="large-2 small-12 columns"></div>
+                <div class="large-9 small-12 columns">
+                    <div id="chart" />
+                </div>
             </div>
         </div>
     </body>
