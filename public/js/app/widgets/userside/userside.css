@@ -6,7 +6,10 @@ li {
     list-style: none;
 }
 
-.avatar-frame{ border: 2px solid #121212; }
+.avatar-frame{
+  border:none; /*2px solid #121212;*/
+  margin-bottom: 20px;
+}
 .avatar-frame, .avatar-frame img {
     width: 50px;
     height: 50px;
