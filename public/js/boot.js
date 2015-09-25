@@ -16,6 +16,8 @@ requirejs.config({
         'beacons.helper': 'app/utils/beacons.helper',
 
         d3:'vendors/d3/d3',
+        c3: 'vendors/c3js-chart/c3',
+
         socketio: '/socket.io/socket.io',
         floorplan:'vendors/floorplan/d3.floorplan.min',
         scatterplot:'app/utils/d3.floorplan.scatterplot',
@@ -53,6 +55,8 @@ define('boot', function(require) {
     require('sparkle');
     require('floormap');
     require('userside');
+    require('css!vendors/c3js-chart/c3.min');
+    var c3 = require('c3');
 
     var grid = require('d3.heatmap.grid');
     console.info(grid)
@@ -131,15 +135,56 @@ define('boot', function(require) {
         });
     });
 
-
-    view = new Ractive({
-        template: '#content-template',
-        el: 'content',
-        append: true,
-        message:'Hola Mundo Mundial!!!'
+    var DATA = {
+          x: 'x',
+          //%Y-%m-%d %H:%M:%S
+          xFormat: '%Y-%m-%d %H:%M', // 'xFormat' can be used as custom format of 'x'
+          columns: [
+            ['x', '2015-09-24 09:00', '2015-09-24 09:05', '2015-09-24 09:10', '2015-09-24 09:15', '2015-09-24 09:20', '2015-09-24 09:25'],
+          //  ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
+            ['Main room', 0, 5, 7, 15, 15, 20],
+            ['Conf 3', 0, 0, 0, 4, 4, 4],
+            ['Phone booth', 0, 1, 1, 1, 1, 1]
+        ]
+    };
+    function getData(data){
+        return Object.keys(data).reduce(function(out, entry){
+            out.push(data[entry].values);
+            return out;
+        }, []);
+    }
+    var chart = c3.generate({
+        bindto: '#chart',
+        data: DATA,
+        axis: {
+            x: {
+                type: 'timeseries',
+                tick: {
+                    format: '%Y-%m-%d %H:%M'
+                }
+            }
+        },
+        subchart: {
+            show: true
+        },
+        zoom: {
+            enabled: true
+        },
+        color: {
+            pattern: ['#ff3366', '#0cff34', '#000fff', '#ff2299', '#0caa68', '#0c1c80']
+        }
     });
 
-    window.v = view;
+
+
+    // view = new Ractive({
+    //     template: '#content-template',
+    //     el: 'content',
+    //     append: true,
+    //     message:'Hola Mundo Mundial!!!'
+    // });
+    //
+    // window.v = view;
 
 /*
 //TODO: Average all items.
@@ -182,5 +227,3 @@ define('boot', function(require) {
     window.readings = readings;
 */
 });
-
-
