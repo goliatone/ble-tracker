@@ -39,7 +39,8 @@ app.get('/beacon-chart', function(req, res) {
 });
 var beacons = require('./routes/beacons')(app);
 var beacons = require('./routes/demo')(app);
-var messages = require('./routes/messages')(app);
+// var messages = require('./routes/messages')(app);
+var messages = require('./routes/pir')(app);
 //////
 
 // catch 404 and forward to error handler
